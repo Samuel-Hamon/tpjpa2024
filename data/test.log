@@ -1,0 +1,46 @@
+/*C1*/SET SCHEMA SYSTEM_LOBS
+INSERT INTO BLOCKS VALUES(0,2147483647,0)
+COMMIT
+/*C2*/SET SCHEMA PUBLIC
+create sequence Artiste_SEQ start with 1 increment by 50
+create sequence Concert_SEQ start with 1 increment by 50
+create sequence GenreMusical_SEQ start with 1 increment by 50
+create sequence Organisateur_SEQ start with 1 increment by 50
+create sequence Ticket_SEQ start with 1 increment by 50
+create sequence Utilisateur_SEQ start with 1 increment by 50
+create table Artiste (dateNaissance timestamp(6), id bigint not null, email varchar(255), nationalite varchar(255), nom varchar(255), prenom varchar(255), tel varchar(255), primary key (id))
+create table Artiste_Concert (Artiste_id bigint not null, concerts_id bigint not null)
+create table Concert (capacite integer not null, prix float(53), date timestamp(6), genreMusical_id bigint, id bigint not null, organisateur_id bigint, description varchar(255), lieu varchar(255), pays varchar(255), primary key (id))
+create table Concert_Artiste (Concert_id bigint not null, artistes_id bigint not null)
+create table GenreMusical (id bigint not null, nom varchar(255), primary key (id))
+create table Organisateur (dateNaissance timestamp(6), id bigint not null, email varchar(255), nationalite varchar(255), nom varchar(255), prenom varchar(255), tel varchar(255), primary key (id))
+create table Ticket (concert_id bigint, id bigint not null, utilisateur_id bigint, primary key (id))
+create table Utilisateur (dateNaissance timestamp(6), id bigint not null, email varchar(255), nationalite varchar(255), nom varchar(255), prenom varchar(255), tel varchar(255), primary key (id))
+alter table Artiste_Concert add constraint FKjb78uouuu44a041lt188pwrp8 foreign key (concerts_id) references Concert
+alter table Artiste_Concert add constraint FKdpim0a4glrr65f2gah5r7rojv foreign key (Artiste_id) references Artiste
+alter table Concert add constraint FK451yvwmyyk82g9uy6lejnyq2n foreign key (genreMusical_id) references GenreMusical
+alter table Concert add constraint FKtkdwqgasjvmoayedcis243y1l foreign key (organisateur_id) references Organisateur
+alter table Concert_Artiste add constraint FKofkfi6d10awtwrpci7y3ssr5w foreign key (artistes_id) references Artiste
+alter table Concert_Artiste add constraint FKk7q2mix8lwv0l3ehvg0al3or1 foreign key (Concert_id) references Concert
+alter table Ticket add constraint FKin9kj2wiejns9ptuw1pt351kg foreign key (concert_id) references Concert
+alter table Ticket add constraint FKlx6owqa2xjndkbo1ystv5rwkb foreign key (utilisateur_id) references Utilisateur
+INSERT INTO UTILISATEUR VALUES('2025-02-02 17:03:54.936428',1,'user1@gmail.com','Fran\u00e7aise','userNom1','userPrenom1','0123456789')
+INSERT INTO UTILISATEUR VALUES('2025-02-02 17:03:54.937476',2,'user2@gmail.com','Fran\u00e7aise','userNom2','userPrenom2','0123456788')
+INSERT INTO ORGANISATEUR VALUES('2025-02-02 17:03:54.937476',1,'org1@gmail.com','Fran\u00e7aise','orgNom1','orgPrenom1','0123456799')
+INSERT INTO ORGANISATEUR VALUES('2025-02-02 17:03:54.937476',2,'org2@gmail.com','Fran\u00e7aise','orgNom2','orgPrenom2','0123456798')
+INSERT INTO ARTISTE VALUES('2025-02-02 17:03:54.937476',1,'art1@gmail.com','Fran\u00e7aise','artNom1','artPrenom1','0123456899')
+INSERT INTO ARTISTE VALUES('2025-02-02 17:03:54.937476',2,'art2@gmail.com','Fran\u00e7aise','artNom2','artPrenom2','0123456898')
+INSERT INTO GENREMUSICAL VALUES(1,'Rock')
+INSERT INTO GENREMUSICAL VALUES(2,'Jazz')
+INSERT INTO CONCERT VALUES(300,20.0E0,'2025-02-12 17:03:54.937476',1,1,1,'Concert Rock \u00c9nergique','Rennes','France')
+INSERT INTO CONCERT VALUES(200,25.0E0,'2025-02-22 17:03:54.937476',2,2,2,'Soir\u00e9e Jazz Relaxante','Paris','France')
+INSERT INTO TICKET VALUES(1,1,1)
+INSERT INTO TICKET VALUES(2,2,2)
+ALTER SEQUENCE PUBLIC.UTILISATEUR_SEQ RESTART WITH 101
+ALTER SEQUENCE PUBLIC.ORGANISATEUR_SEQ RESTART WITH 101
+ALTER SEQUENCE PUBLIC.ARTISTE_SEQ RESTART WITH 101
+ALTER SEQUENCE PUBLIC.GENREMUSICAL_SEQ RESTART WITH 101
+ALTER SEQUENCE PUBLIC.CONCERT_SEQ RESTART WITH 101
+ALTER SEQUENCE PUBLIC.TICKET_SEQ RESTART WITH 101
+COMMIT
+DISCONNECT
