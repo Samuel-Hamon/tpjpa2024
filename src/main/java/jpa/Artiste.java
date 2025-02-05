@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 
 @Entity
@@ -21,6 +23,11 @@ public class Artiste extends Personne {
 	}
 
 	@ManyToMany
+    @JoinTable(
+        name = "artiste_concert",
+        joinColumns = @JoinColumn(name = "artiste_id"),
+        inverseJoinColumns = @JoinColumn(name = "concert_id")
+    )
 	public List<Concert> getConcerts() {
 		return concerts;
 	}
@@ -28,10 +35,14 @@ public class Artiste extends Personne {
 	public void setConcerts(List<Concert> concerts) {
 		this.concerts = concerts;
 	}
+	
+	public void addConcert(Concert concert) {
+		this.concerts.add(concert);
+	}
 
 	@Override
 	public String toString() {
-		return "Artiste [concerts=" + concerts + ", nom=" + nom + ", prenom=" + prenom + ", nationalite=" + nationalite
+		return "Artiste [concerts=" + concerts.size() + ", nom=" + nom + ", prenom=" + prenom + ", nationalite=" + nationalite
 				+ ", dateNaissance=" + dateNaissance + ", email=" + email + ", tel=" + tel + "]";
 	}
 

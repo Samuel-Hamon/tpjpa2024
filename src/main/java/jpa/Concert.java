@@ -7,6 +7,7 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -24,7 +25,7 @@ public class Concert {
 	private Organisateur organisateur;
 	private GenreMusical genreMusical;
 	private List<Artiste> artistes = new ArrayList<Artiste>();
-	private List<Ticket> tickets = new ArrayList<Ticket>();;
+	private List<Ticket> tickets = new ArrayList<Ticket>();
 
 	public Concert() {
 	}
@@ -42,7 +43,7 @@ public class Concert {
 	}
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
@@ -117,13 +118,17 @@ public class Concert {
 		this.genreMusical = genreMusical;
 	}
 
-	@ManyToMany
+	@ManyToMany(mappedBy = "concerts")
 	public List<Artiste> getArtistes() {
 		return artistes;
 	}
 
 	public void setArtistes(List<Artiste> artistes) {
 		this.artistes = artistes;
+	}
+	
+	public void addArtiste(Artiste artiste) {
+		this.artistes.add(artiste);
 	}
 
 	@OneToMany(mappedBy = "concert", cascade = CascadeType.PERSIST)
@@ -139,7 +144,7 @@ public class Concert {
 	public String toString() {
 		return "Concert [id=" + id + ", capacite=" + capacite + ", description=" + description + ", prix=" + prix
 				+ ", lieu=" + lieu + ", date=" + date + ", pays=" + pays + ", organisateur=" + organisateur
-				+ ", genreMusical=" + genreMusical + ", artistes=" + artistes + ", tickets=" + tickets + "]";
+				+ ", genreMusical=" + genreMusical + ", artistes=" + artistes.size() + ", tickets=" + tickets + "]";
 	}
 
 }

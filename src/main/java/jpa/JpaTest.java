@@ -71,6 +71,12 @@ public class JpaTest {
 			Ticket ticket1 = new Ticket((Utilisateur) utilisateur1, concert1);
 
 			Ticket ticket2 = new Ticket((Utilisateur) utilisateur2, concert2);
+			
+			((Artiste) artiste1).addConcert(concert1);
+			((Artiste) artiste2).addConcert(concert2);
+			
+			concert1.addArtiste((Artiste) artiste1);
+			concert2.addArtiste((Artiste) artiste2);
 
 			manager.persist(utilisateur1);
 			manager.persist(utilisateur2);
