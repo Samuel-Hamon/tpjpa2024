@@ -33,10 +33,5 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<version>8.1.0</version>
 		</dependency>
-		<dependency>
-			<groupId>SIR</groupId>
-			<artifactId>SIR</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 </project>
