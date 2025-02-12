@@ -3,6 +3,13 @@ package jpa;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import domain.Artiste;
+import domain.Concert;
+import domain.GenreMusical;
+import domain.Organisateur;
+import domain.Personne;
+import domain.Ticket;
+import domain.Utilisateur;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 

@@ -1,4 +1,4 @@
-package jpa;
+package domain;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -8,8 +8,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 public class Artiste extends Personne {
 	private List<Concert> concerts = new ArrayList<Concert>();
 
