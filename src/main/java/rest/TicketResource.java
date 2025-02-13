@@ -3,11 +3,7 @@ package rest;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import dao.ConcertDao;
 import dao.TicketDao;
-import domain.Artiste;
-import domain.Concert;
-import domain.ConcertDTO;
 import domain.Ticket;
 import domain.TicketDTO;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -41,63 +37,43 @@ public class TicketResource {
 		if (ticket.getUtilisateur() != null) {
 			dto.setUtilisateurId(ticket.getUtilisateur().getId());
 		}
-		if (concert.getGenreMusical() != null) {
-			dto.setGenreMusicalId(concert.getGenreMusical().getId());
+		if (ticket.getConcert() != null) {
+			dto.setConcertId(ticket.getConcert().getId());
 		}
 		return dto;
 	}
 
 	@GET
 	@Path("/")
-	public List<ConcertDTO> getConcerts() {
+	public List<TicketDTO> getConcerts() {
 		// Récupérer tous les concerts depuis le DAO
-		List<Concert> concerts = concertDao.findAll();
+		List<Ticket> tickets = ticketDao.findAll();
 
 		// Convertir la liste des concerts en une liste de ConcertDTO
-		List<ConcertDTO> concertDTOs = concerts.stream().map(concert -> {
-			ConcertDTO dto = new ConcertDTO();
-			dto.setId(concert.getId());
-			dto.setCapacite(concert.getCapacite());
-			dto.setDescription(concert.getDescription());
-			dto.setPrix(concert.getPrix());
-			dto.setLieu(concert.getLieu());
-			dto.setDate(concert.getDate());
-			dto.setPays(concert.getPays());
+		List<TicketDTO> ticketsDTOs = tickets.stream().map(ticket -> {
+			TicketDTO dto = new TicketDTO();
+			dto.setId(ticket.getId());
 
-			// Vérification des relations
-			if (concert.getOrganisateur() != null) {
-				dto.setOrganisateurId(concert.getOrganisateur().getId());
+			if (ticket.getUtilisateur() != null) {
+				dto.setUtilisateurId(ticket.getUtilisateur().getId());
 			}
-			if (concert.getGenreMusical() != null) {
-				dto.setGenreMusicalId(concert.getGenreMusical().getId());
+			if (ticket.getConcert() != null) {
+				dto.setConcertId(ticket.getConcert().getId());
 			}
-			if (concert.getArtistes() != null && !concert.getArtistes().isEmpty()) {
-				dto.setArtistesIds(concert.getArtistes().stream().map(Artiste::getId).collect(Collectors.toList()));
-			}
-			if (concert.getTickets() != null && !concert.getTickets().isEmpty()) {
-				dto.setTicketsIds(concert.getTickets().stream().map(Ticket::getId).collect(Collectors.toList()));
-			}
-
 			return dto;
 		}).collect(Collectors.toList());
 
-		return concertDTOs;
+		return ticketsDTOs;
 	}
 
 	@POST
 	@Consumes("application/json")
-	public Response addConcert(@Parameter ConcertDTO concertDTO) {
-		Concert concert = new Concert();
-		concert.setId(concertDTO.getId());
-		concert.setCapacite(concertDTO.getCapacite());
-		concert.setDescription(concertDTO.getDescription());
-		concert.setPrix(concertDTO.getPrix());
-		concert.setLieu(concertDTO.getLieu());
-		concert.setDate(concertDTO.getDate());
-		concert.setPays(concertDTO.getPays());
+	public Response addTicket(@Parameter TicketDTO ticketDTO) {
+		Ticket ticket = new Ticket();
+		ticket.setId(ticketDTO.getId());
 
 		// Save the concert
-		concertDao.save(concert);
+		ticketDao.save(ticket);
 
 		return Response.ok().entity("SUCCESS").build();
 	}

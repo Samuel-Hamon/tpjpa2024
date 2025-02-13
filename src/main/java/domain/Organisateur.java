@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class Organisateur extends Personne {
+public class Organisateur extends Personne implements Serializable {
 	private List<Concert> concerts = new ArrayList<Concert>();
 
 	public Organisateur() {
