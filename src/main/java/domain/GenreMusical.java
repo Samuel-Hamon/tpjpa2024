@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class GenreMusical {
+public class GenreMusical implements Serializable {
 	private Long id;
 	private String nom;
 	private List<Concert> concerts = new ArrayList<Concert>();

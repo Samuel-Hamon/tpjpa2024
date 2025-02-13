@@ -1,5 +1,7 @@
 package domain;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,7 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Ticket {
+public class Ticket implements Serializable {
 	private Long id;
 	private Utilisateur utilisateur;
 	private Concert concert;

@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
-public class Artiste extends Personne {
+public class Artiste extends Personne implements Serializable {
 	private List<Concert> concerts = new ArrayList<Concert>();
 
 	public Artiste() {
