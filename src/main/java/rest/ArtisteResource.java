@@ -1,9 +1,11 @@
 package rest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import dao.ArtisteDao;
+import dao.ConcertDao;
 import domain.Artiste;
 import domain.ArtisteDTO;
 import domain.Concert;
@@ -76,18 +78,32 @@ public class ArtisteResource {
 	@POST
 	@Consumes("application/json")
 	public Response addArtiste(@Parameter ArtisteDTO artisteDTO) {
+		ConcertDao concertDao = new ConcertDao();
+		// Création de l'artiste à partir du DTO
 		Artiste artiste = new Artiste();
+		artiste.setNom(artisteDTO.getNom());
 		artiste.setPrenom(artisteDTO.getPrenom());
 		artiste.setNationalite(artisteDTO.getNationalite());
 		artiste.setDateNaissance(artisteDTO.getDateNaissance());
 		artiste.setEmail(artisteDTO.getEmail());
 		artiste.setTel(artisteDTO.getTel());
 
+		// Ajout des concerts s'ils existent
+		if (artisteDTO.getConcertsIds() != null && !artisteDTO.getConcertsIds().isEmpty()) {
+			List<Concert> concerts = new ArrayList<>();
+			for (Long concertId : artisteDTO.getConcertsIds()) {
+				Concert concert = concertDao.findOne(concertId); // Récupérer le concert par ID
+				if (concert != null) {
+					concerts.add(concert);
+				}
+			}
+			artiste.setConcerts(concerts);
+		}
 
-		// Save the concert
+		// Sauvegarde de l'artiste
 		artisteDao.save(artiste);
 
-		return Response.ok().entity("SUCCESS").build();
+		return Response.ok().entity("Artiste ajouté avec succès !").build();
 	}
 
 }
