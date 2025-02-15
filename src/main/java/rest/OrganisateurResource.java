@@ -76,17 +76,21 @@ public class OrganisateurResource {
 	@POST
 	@Consumes("application/json")
 	public Response addOrganisateur(@Parameter OrganisateurDTO organisateurDTO) {
-		Organisateur organisateur = new Organisateur();
-		organisateur.setPrenom(organisateurDTO.getPrenom());
-		organisateur.setNationalite(organisateurDTO.getNationalite());
-		organisateur.setDateNaissance(organisateurDTO.getDateNaissance());
-		organisateur.setEmail(organisateurDTO.getEmail());
-		organisateur.setTel(organisateurDTO.getTel());
+	    // Création d'un nouvel objet Organisateur
+	    Organisateur organisateur = new Organisateur();
+	    organisateur.setNom(organisateurDTO.getNom());
+	    organisateur.setPrenom(organisateurDTO.getPrenom());
+	    organisateur.setNationalite(organisateurDTO.getNationalite());
+	    organisateur.setDateNaissance(organisateurDTO.getDateNaissance());
+	    organisateur.setEmail(organisateurDTO.getEmail());
+	    organisateur.setTel(organisateurDTO.getTel());
 
+	    // Sauvegarde de l'organisateur
+	    organisateurDao.save(organisateur);
 
-		organisateurDao.save(organisateur);
-
-		return Response.ok().entity("SUCCESS").build();
+	    return Response.status(Response.Status.CREATED)
+	            .entity("Organisateur ajouté avec succès.")
+	            .build();
 	}
 
 }

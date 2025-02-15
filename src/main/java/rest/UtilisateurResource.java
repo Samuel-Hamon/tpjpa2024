@@ -77,17 +77,17 @@ public class UtilisateurResource {
 	@Consumes("application/json")
 	public Response addutilisateur(@Parameter UtilisateurDTO utilisateurDTO) {
 		Utilisateur utilisateur = new Utilisateur();
+		utilisateur.setNom(utilisateurDTO.getNom());
 		utilisateur.setPrenom(utilisateurDTO.getPrenom());
 		utilisateur.setNationalite(utilisateurDTO.getNationalite());
 		utilisateur.setDateNaissance(utilisateurDTO.getDateNaissance());
 		utilisateur.setEmail(utilisateurDTO.getEmail());
 		utilisateur.setTel(utilisateurDTO.getTel());
 
-
 		// Save the concert
 		utilisateurDao.save(utilisateur);
 
-		return Response.ok().entity("SUCCESS").build();
+		return Response.ok().entity("Utilisateur ajouté avec succès.").build();
 	}
 
 }

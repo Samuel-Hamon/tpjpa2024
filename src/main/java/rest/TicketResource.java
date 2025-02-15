@@ -6,10 +6,7 @@ import java.util.stream.Collectors;
 import dao.TicketDao;
 import domain.Ticket;
 import domain.TicketDTO;
-import io.swagger.v3.oas.annotations.Parameter;
-import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -64,18 +61,6 @@ public class TicketResource {
 		}).collect(Collectors.toList());
 
 		return ticketsDTOs;
-	}
-
-	@POST
-	@Consumes("application/json")
-	public Response addTicket(@Parameter TicketDTO ticketDTO) {
-		Ticket ticket = new Ticket();
-		ticket.setId(ticketDTO.getId());
-
-		// Save the concert
-		ticketDao.save(ticket);
-
-		return Response.ok().entity("SUCCESS").build();
 	}
 
 }
