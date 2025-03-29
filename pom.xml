@@ -95,12 +95,6 @@
 			<artifactId>jackson-datatype-jsr310</artifactId>
 			<version>2.15.0</version>
 		</dependency>
-
-		<dependency>
-			<groupId>fr.istic</groupId>
-			<artifactId>tpJpa</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 	<build>
 		<defaultGoal>install</defaultGoal>

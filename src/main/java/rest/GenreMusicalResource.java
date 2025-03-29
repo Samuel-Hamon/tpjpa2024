@@ -72,14 +72,16 @@ public class GenreMusicalResource {
 	@POST
 	@Consumes("application/json")
 	public Response addGenreMusical(@Parameter GenreMusicalDTO genreMusicalDTO) {
-		GenreMusical genreMusical = new GenreMusical();
-		genreMusical.setId(genreMusicalDTO.getId());
-		genreMusical.setNom(genreMusicalDTO.getNom());
+	    // Création d'un nouvel objet GenreMusical
+	    GenreMusical genreMusical = new GenreMusical();
+	    genreMusical.setNom(genreMusicalDTO.getNom());
 
-		// Save the GenreMusical
-		genreMusicalDao.save(genreMusical);
+	    // Sauvegarde du genre musical
+	    genreMusicalDao.save(genreMusical);
 
-		return Response.ok().entity("SUCCESS").build();
+	    return Response.status(Response.Status.CREATED)
+	            .entity("Genre musical ajouté avec succès.")
+	            .build();
 	}
 	
 	@PUT
@@ -105,5 +107,6 @@ public class GenreMusicalResource {
         genreMusicalDao.delete(genreMusical);
         return Response.ok().entity("GenreMusical deleted successfully").build();
     }
+
 
 }

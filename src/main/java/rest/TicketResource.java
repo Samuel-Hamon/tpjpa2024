@@ -8,12 +8,14 @@ import dao.TicketDao;
 import dao.UtilisateurDao;
 import domain.Ticket;
 import domain.TicketDTO;
+
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
+
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -115,5 +117,4 @@ public class TicketResource {
 	    ticketDao.delete(ticket);
 	    return Response.ok().entity("Ticket deleted successfully").build();
 	}
-
 }

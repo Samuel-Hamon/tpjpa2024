@@ -214,4 +214,5 @@ public class ConcertResource {
                 .collect(Collectors.toList());
         concert.setArtistes(artistes);
     }
+
 }
