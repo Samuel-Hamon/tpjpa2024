@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
+@SuppressWarnings("serial")
 @Entity
 public class GenreMusical implements Serializable {
 	private Long id;

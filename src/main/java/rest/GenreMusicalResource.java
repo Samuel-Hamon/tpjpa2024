@@ -9,8 +9,10 @@ import domain.GenreMusical;
 import domain.GenreMusicalDTO;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -79,5 +81,29 @@ public class GenreMusicalResource {
 
 		return Response.ok().entity("SUCCESS").build();
 	}
+	
+	@PUT
+    @Path("/{genreMusicalId}")
+    @Consumes("application/json")
+    public Response updateGenreMusical(@PathParam("genreMusicalId") Long genreMusicalId, GenreMusicalDTO genreMusicalDTO) {
+        GenreMusical genreMusical = genreMusicalDao.findOne(genreMusicalId);
+        if (genreMusical == null) {
+            throw new WebApplicationException("GenreMusical not found", Response.Status.NOT_FOUND);
+        }
+        genreMusical.setNom(genreMusicalDTO.getNom());
+        genreMusicalDao.update(genreMusical);
+        return Response.ok().entity("GenreMusical updated successfully").build();
+    }
+
+	@DELETE
+    @Path("/{genreMusicalId}")
+    public Response deleteGenreMusical(@PathParam("genreMusicalId") Long genreMusicalId) {
+        GenreMusical genreMusical = genreMusicalDao.findOne(genreMusicalId);
+        if (genreMusical == null) {
+            throw new WebApplicationException("GenreMusical not found", Response.Status.NOT_FOUND);
+        }
+        genreMusicalDao.delete(genreMusical);
+        return Response.ok().entity("GenreMusical deleted successfully").build();
+    }
 
 }

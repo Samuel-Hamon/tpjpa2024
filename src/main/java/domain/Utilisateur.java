@@ -9,6 +9,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 
+@SuppressWarnings("serial")
 @Entity
 public class Utilisateur extends Personne implements Serializable {
 

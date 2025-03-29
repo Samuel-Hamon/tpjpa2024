@@ -17,6 +17,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+@SuppressWarnings("serial")
 @Entity
 @XmlRootElement
 public class Concert implements Serializable {

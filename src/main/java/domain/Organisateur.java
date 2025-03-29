@@ -9,6 +9,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 
+@SuppressWarnings("serial")
 @Entity
 public class Organisateur extends Personne implements Serializable {
 	private List<Concert> concerts = new ArrayList<Concert>();

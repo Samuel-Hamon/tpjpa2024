@@ -11,8 +11,10 @@ import domain.ArtisteDTO;
 import domain.Concert;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -105,5 +107,57 @@ public class ArtisteResource {
 
 		return Response.ok().entity("Artiste ajouté avec succès !").build();
 	}
+	
+	@PUT
+	@Path("/{artisteId}")
+	@Consumes("application/json")
+	public Response updateArtiste(@PathParam("artisteId") Long artisteId, ArtisteDTO artisteDTO) {
+	    // Vérifier si l'artiste existe
+	    Artiste artiste = artisteDao.findOne(artisteId);
+	    if (artiste == null) {
+	        throw new WebApplicationException("Artiste not found", Response.Status.NOT_FOUND);
+	    }
+
+	    // Mettre à jour les informations de l'artiste
+	    artiste.setNom(artisteDTO.getNom());
+	    artiste.setPrenom(artisteDTO.getPrenom());
+	    artiste.setNationalite(artisteDTO.getNationalite());
+	    artiste.setDateNaissance(artisteDTO.getDateNaissance());
+	    artiste.setEmail(artisteDTO.getEmail());
+	    artiste.setTel(artisteDTO.getTel());
+
+	    // Mise à jour des concerts
+	    ConcertDao concertDao = new ConcertDao();
+	    if (artisteDTO.getConcertsIds() != null && !artisteDTO.getConcertsIds().isEmpty()) {
+	        List<Concert> concerts = artisteDTO.getConcertsIds().stream()
+	            .map(concertDao::findOne)
+	            .filter(concert -> concert != null)
+	            .collect(Collectors.toList());
+	        artiste.setConcerts(concerts);
+	    } else {
+	        artiste.setConcerts(new ArrayList<>());
+	    }
+
+	    // Sauvegarde des modifications
+	    artisteDao.update(artiste);
+
+	    return Response.ok().entity("Artiste mis à jour avec succès !").build();
+	}
+
+	@DELETE
+	@Path("/{artisteId}/delete")
+	public Response deleteArtiste(@PathParam("artisteId") Long artisteId) {
+	    // Vérifier si l'artiste existe
+	    Artiste artiste = artisteDao.findOne(artisteId);
+	    if (artiste == null) {
+	        throw new WebApplicationException("Artiste not found", Response.Status.NOT_FOUND);
+	    }
+
+	    // Suppression de l'artiste
+	    artisteDao.delete(artiste);
+
+	    return Response.ok().entity("Artiste supprimé avec succès !").build();
+	}
+
 
 }

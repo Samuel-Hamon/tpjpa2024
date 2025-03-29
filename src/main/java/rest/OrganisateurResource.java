@@ -9,8 +9,10 @@ import domain.OrganisateurDTO;
 import domain.Concert;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -77,6 +79,7 @@ public class OrganisateurResource {
 	@Consumes("application/json")
 	public Response addOrganisateur(@Parameter OrganisateurDTO organisateurDTO) {
 		Organisateur organisateur = new Organisateur();
+		organisateur.setNom(organisateurDTO.getNom());
 		organisateur.setPrenom(organisateurDTO.getPrenom());
 		organisateur.setNationalite(organisateurDTO.getNationalite());
 		organisateur.setDateNaissance(organisateurDTO.getDateNaissance());
@@ -87,6 +90,38 @@ public class OrganisateurResource {
 		organisateurDao.save(organisateur);
 
 		return Response.ok().entity("SUCCESS").build();
+	}
+	
+	@PUT
+	@Path("/{organisateurId}")
+	@Consumes("application/json")
+	public Response updateOrganisateur(@PathParam("organisateurId") Long organisateurId, OrganisateurDTO organisateurDTO) {
+	    Organisateur organisateur = organisateurDao.findOne(organisateurId);
+	    if (organisateur == null) {
+	        throw new WebApplicationException("Organisateur not found", Response.Status.NOT_FOUND);
+	    }
+
+	    organisateur.setNom(organisateurDTO.getNom());
+	    organisateur.setPrenom(organisateurDTO.getPrenom());
+	    organisateur.setNationalite(organisateurDTO.getNationalite());
+	    organisateur.setDateNaissance(organisateurDTO.getDateNaissance());
+	    organisateur.setEmail(organisateurDTO.getEmail());
+	    organisateur.setTel(organisateurDTO.getTel());
+
+	    organisateurDao.update(organisateur);
+	    return Response.ok().entity("Organisateur updated successfully").build();
+	}
+
+	@DELETE
+	@Path("/{organisateurId}")
+	public Response deleteOrganisateur(@PathParam("organisateurId") Long organisateurId) {
+	    Organisateur organisateur = organisateurDao.findOne(organisateurId);
+	    if (organisateur == null) {
+	        throw new WebApplicationException("Organisateur not found", Response.Status.NOT_FOUND);
+	    }
+
+	    organisateurDao.delete(organisateur);
+	    return Response.ok().entity("Organisateur deleted successfully").build();
 	}
 
 }

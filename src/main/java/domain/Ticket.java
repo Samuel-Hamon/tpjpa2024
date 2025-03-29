@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
+@SuppressWarnings("serial")
 @Entity
 public class Ticket implements Serializable {
 	private Long id;

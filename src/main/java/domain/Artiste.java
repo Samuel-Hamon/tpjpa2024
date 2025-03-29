@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+@SuppressWarnings("serial")
 @Entity
 @XmlRootElement
 public class Artiste extends Personne implements Serializable {

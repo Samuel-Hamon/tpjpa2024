@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@SuppressWarnings("serial")
 @WebServlet(name = "mytest", urlPatterns = { "/myurl" })
 public class MyServlet extends HttpServlet {
 
