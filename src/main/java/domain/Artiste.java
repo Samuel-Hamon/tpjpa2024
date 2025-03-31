@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
@@ -26,7 +27,7 @@ public class Artiste extends Personne implements Serializable {
 		super(nom, prenom, nationalite, dateNaissance, email, tel);
 	}
 
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
         name = "artiste_concert",
         joinColumns = @JoinColumn(name = "artiste_id"),

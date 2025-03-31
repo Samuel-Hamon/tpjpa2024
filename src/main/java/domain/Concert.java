@@ -134,7 +134,7 @@ public class Concert implements Serializable {
         this.genreMusical = genreMusical;
     }
 
-    @ManyToMany(mappedBy = "concerts")
+    @ManyToMany(mappedBy = "concerts", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @XmlElement
     public List<Artiste> getArtistes() {
         return artistes;
@@ -148,7 +148,7 @@ public class Concert implements Serializable {
         this.artistes.add(artiste);
     }
 
-    @OneToMany(mappedBy = "concert", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "concert", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     @XmlElement
     public List<Ticket> getTickets() {
         return tickets;
