@@ -8,7 +8,6 @@ import dao.TicketDao;
 import dao.UtilisateurDao;
 import domain.Utilisateur;
 import domain.UtilisateurDTO;
-import domain.Artiste;
 import domain.Ticket;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.ws.rs.Consumes;
@@ -81,7 +80,7 @@ public class UtilisateurResource {
 
 	@POST
 	@Consumes("application/json")
-	public Response addutilisateur(@Parameter UtilisateurDTO utilisateurDTO) {
+	public Response addUtilisateur(@Parameter UtilisateurDTO utilisateurDTO) {
 		Utilisateur utilisateur = new Utilisateur();
 		utilisateur.setNom(utilisateurDTO.getNom());
 		utilisateur.setPrenom(utilisateurDTO.getPrenom());
@@ -89,17 +88,20 @@ public class UtilisateurResource {
 		utilisateur.setDateNaissance(utilisateurDTO.getDateNaissance());
 		utilisateur.setEmail(utilisateurDTO.getEmail());
 		utilisateur.setTel(utilisateurDTO.getTel());
+		
+		utilisateurDao.save(utilisateur);
 
 		// Récupération et affectation des tickets
 		List<Long> ticketsIds = utilisateurDTO.getTicketsIds();
 		if (ticketsIds != null && !ticketsIds.isEmpty()) {
-			List<Ticket> tickets = ticketsIds.stream().map(ticketDao::findOne).filter(Objects::nonNull)
-					.collect(Collectors.toList());
-			utilisateur.setTickets(tickets);
+			for (Long ticketId : ticketsIds) {
+				Ticket ticket = ticketDao.findOne(ticketId); // Récupérer le concert par ID
+				if (ticket != null) {
+					ticket.setUtilisateur(utilisateur);
+					ticketDao.update(ticket);
+				}
+			}
 		}
-
-		// Save the concert
-		utilisateurDao.save(utilisateur);
 
 		return Response.ok().entity("Utilisateur ajouté avec succès.").build();
 	}
@@ -154,7 +156,11 @@ public class UtilisateurResource {
 		if (utilisateur == null) {
 			throw new WebApplicationException("Utilisateur not found", Response.Status.NOT_FOUND);
 		}
-
+		List<Ticket> tickets = utilisateur.getTickets();
+		for (Ticket ticket : tickets) {
+			ticket.setUtilisateur(null); 
+		    ticketDao.update(ticket);
+		}
 		utilisateurDao.delete(utilisateur);
 		return Response.ok().entity("Utilisateur deleted successfully").build();
 	}

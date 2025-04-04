@@ -1,6 +1,5 @@
 package rest;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -169,14 +168,11 @@ public class ConcertResource {
         concert.setArtistes(artistes);
 
         // Création des tickets (non persistés ici)
-        List<Ticket> tickets = new ArrayList<>();
         for (int i = 0; i < concertDTO.getCapacite(); i++) {
-            Ticket ticket = new Ticket();
-            ticket.setConcert(concert); // Association au concert
-            tickets.add(ticket);
+            Ticket ticket = new Ticket(null, concert);
+            concert.getTickets().add(ticket);
         }
-        concert.setTickets(tickets);
-
+        
         return concert;
     }
 

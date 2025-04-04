@@ -51,7 +51,7 @@ public class TicketResource {
 
 	@GET
 	@Path("/")
-	public List<TicketDTO> getConcerts() {
+	public List<TicketDTO> getTickets() {
 		// Récupérer tous les concerts depuis le DAO
 		List<Ticket> tickets = ticketDao.findAll();
 
