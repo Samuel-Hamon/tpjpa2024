@@ -1,7 +1,6 @@
 package rest;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import dao.TicketDao;
@@ -137,10 +136,13 @@ public class UtilisateurResource {
 			// Mise à jour des tickets
 			List<Long> ticketsIds = utilisateurDTO.getTicketsIds();
 			if (ticketsIds != null && !ticketsIds.isEmpty()) {
-
-				List<Ticket> tickets = ticketsIds.stream().map(ticketDao::findOne).filter(Objects::nonNull)
-						.collect(Collectors.toList());
-				utilisateur.setTickets(tickets);
+				for (Long ticketId : ticketsIds) {
+					Ticket ticket = ticketDao.findOne(ticketId); // Récupérer le concert par ID
+					if (ticket != null) {
+						ticket.setUtilisateur(utilisateur);
+						ticketDao.update(ticket);
+					}
+				}
 			}
 		}
 
