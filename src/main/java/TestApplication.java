@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import rest.ArtisteResource;
+import rest.CORSFilter;
 import rest.ConcertResource;
 import rest.GenreMusicalResource;
 import rest.OrganisateurResource;
@@ -29,6 +30,7 @@ public class TestApplication extends Application {
         clazzes.add(TicketResource.class);
         clazzes.add(OrganisateurResource.class);
         clazzes.add(UtilisateurResource.class);
+        clazzes.add(CORSFilter.class);
 //        clazzes.add(AcceptHeaderOpenApiResource.class);
          
 
