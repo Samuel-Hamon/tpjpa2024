@@ -35,6 +35,7 @@ public class OrganisateurResource {
 			throw new WebApplicationException("Organisateur not found", Response.Status.NOT_FOUND);
 		}
 		OrganisateurDTO dto = new OrganisateurDTO();
+		dto.setId(organisateur.getId());
 		dto.setNom(organisateur.getNom());
 		dto.setPrenom(organisateur.getPrenom());
 		dto.setNationalite(organisateur.getNationalite());

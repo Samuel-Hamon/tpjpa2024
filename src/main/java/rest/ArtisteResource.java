@@ -60,6 +60,7 @@ public class ArtisteResource {
 		// Convertir la liste des concerts en une liste de ConcertDTO
 		List<ArtisteDTO> artisteDTOs = artistes.stream().map(artiste -> {
 			ArtisteDTO dto = new ArtisteDTO();
+			dto.setId(artiste.getId());
 			dto.setNom(artiste.getNom());
 			dto.setPrenom(artiste.getPrenom());
 			dto.setNationalite(artiste.getNationalite());
@@ -145,7 +146,7 @@ public class ArtisteResource {
 	}
 
 	@DELETE
-	@Path("/{artisteId}/delete")
+	@Path("/{artisteId}")
 	public Response deleteArtiste(@PathParam("artisteId") Long artisteId) {
 	    // Vérifier si l'artiste existe
 	    Artiste artiste = artisteDao.findOne(artisteId);

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 public class OrganisateurDTO {
+	private Long id;
 	private String nom;
 	private String prenom;
 	private String nationalite;
@@ -17,6 +18,14 @@ public class OrganisateurDTO {
 	private String email;
 	private String tel;
 	private List<Long> concertsIds;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getNom() {
 		return nom;

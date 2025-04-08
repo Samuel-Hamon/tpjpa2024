@@ -37,6 +37,7 @@ public class UtilisateurResource {
 			throw new WebApplicationException("utilisateur not found", Response.Status.NOT_FOUND);
 		}
 		UtilisateurDTO dto = new UtilisateurDTO();
+		dto.setId(utilisateur.getId());
 		dto.setNom(utilisateur.getNom());
 		dto.setPrenom(utilisateur.getPrenom());
 		dto.setNationalite(utilisateur.getNationalite());
