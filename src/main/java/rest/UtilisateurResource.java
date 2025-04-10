@@ -8,7 +8,10 @@ import dao.UtilisateurDao;
 import domain.Utilisateur;
 import domain.UtilisateurDTO;
 import domain.Ticket;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -29,6 +32,11 @@ public class UtilisateurResource {
 
 	@GET
 	@Path("/{utilisateurId}")
+	@Operation(summary = "Récupérer un utilisateur", description = "Retourne l'utilisateur correspondant à l'ID fourni.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Utilisateur trouvé"),
+        @ApiResponse(responseCode = "404", description = "Utilisateur non trouvé")
+    })
 	public UtilisateurDTO getUtilisateurById(@PathParam("utilisateurId") Long utilisateurId) {
 		// Utilisation du DAO pour récupérer le concert depuis la base de données
 		Utilisateur utilisateur = utilisateurDao.findOne(utilisateurId);
@@ -54,6 +62,8 @@ public class UtilisateurResource {
 
 	@GET
 	@Path("/")
+	@Operation(summary = "Lister les utilisateurs", description = "Retourne la liste de tous les utilisateurs.")
+    @ApiResponse(responseCode = "200", description = "Liste des utilisateurs retournée")
 	public List<UtilisateurDTO> getUtilisateurs() {
 		// Récupérer tous les concerts depuis le DAO
 		List<Utilisateur> utilisateurs = utilisateurDao.findAll();
@@ -80,6 +90,8 @@ public class UtilisateurResource {
 
 	@POST
 	@Consumes("application/json")
+	@Operation(summary = "Ajouter un utilisateur", description = "Crée un nouvel utilisateur à partir des informations fournies.")
+    @ApiResponse(responseCode = "200", description = "Utilisateur ajouté avec succès")
 	public Response addUtilisateur(@Parameter UtilisateurDTO utilisateurDTO) {
 		Utilisateur utilisateur = new Utilisateur();
 		utilisateur.setNom(utilisateurDTO.getNom());
@@ -109,6 +121,8 @@ public class UtilisateurResource {
 	@PUT
 	@Path("/{utilisateurId}")
 	@Consumes("application/json")
+	@Operation(summary = "Modifier un utilisateur", description = "Met à jour l'utilisateur identifié par son ID avec les nouvelles informations.")
+    @ApiResponse(responseCode = "200", description = "Utilisateur mis à jour avec succès")
 	public Response updateUtilisateur(@PathParam("utilisateurId") Long utilisateurId, UtilisateurDTO utilisateurDTO) {
 		Utilisateur utilisateur = utilisateurDao.findOne(utilisateurId);
 		if (utilisateur == null) {
@@ -154,6 +168,11 @@ public class UtilisateurResource {
 
 	@DELETE
 	@Path("/{utilisateurId}")
+	@Operation(summary = "Supprimer un utilisateur", description = "Supprime l'utilisateur identifié par son ID.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Utilisateur supprimé avec succès"),
+        @ApiResponse(responseCode = "404", description = "Utilisateur non trouvé")
+    })
 	public Response deleteUtilisateur(@PathParam("utilisateurId") Long utilisateurId) {
 		Utilisateur utilisateur = utilisateurDao.findOne(utilisateurId);
 		if (utilisateur == null) {

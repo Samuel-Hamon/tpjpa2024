@@ -15,7 +15,10 @@ import domain.ConcertDTO;
 import domain.GenreMusical;
 import domain.Organisateur;
 import domain.Ticket;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -40,6 +43,11 @@ public class ConcertResource {
 
     @GET
     @Path("/{concertId}")
+    @Operation(summary = "Récupérer un concert", description = "Retourne les détails d'un concert via son ID.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Concert trouvé"),
+        @ApiResponse(responseCode = "404", description = "Concert non trouvé")
+    })
     public ConcertDTO getConcertById(@PathParam("concertId") Long concertId) {
         Concert concert = concertDao.findOne(concertId);
         if (concert == null) {
@@ -50,6 +58,8 @@ public class ConcertResource {
 
     @GET
     @Path("/")
+    @Operation(summary = "Lister les concerts", description = "Retourne la liste de tous les concerts.")
+    @ApiResponse(responseCode = "200", description = "Liste des concerts retournée")
     public List<ConcertDTO> getConcerts() {
         List<Concert> concerts = concertDao.findAll();
         return concerts.stream().map(this::mapConcertToDTO).collect(Collectors.toList());
@@ -57,6 +67,8 @@ public class ConcertResource {
 
     @POST
     @Consumes("application/json")
+    @Operation(summary = "Ajouter un concert", description = "Crée un nouveau concert à partir du DTO fourni.")
+    @ApiResponse(responseCode = "200", description = "Concert ajouté avec succès")
     public Response addConcert(@Parameter ConcertDTO concertDTO) {
         // Construction d'un nouveau concert à partir du DTO
         Concert concert = buildConcertFromDTO(concertDTO);
@@ -78,6 +90,11 @@ public class ConcertResource {
     @PUT
     @Path("/{concertId}")
     @Consumes("application/json")
+    @Operation(summary = "Modifier un concert", description = "Met à jour un concert existant identifié par son ID.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Concert mis à jour avec succès"),
+        @ApiResponse(responseCode = "404", description = "Concert non trouvé")
+    })
     public Response updateConcert(@PathParam("concertId") Long concertId, ConcertDTO concertDTO) {
         Concert existingConcert = concertDao.findOne(concertId);
         if (existingConcert == null) {
@@ -91,6 +108,11 @@ public class ConcertResource {
 
     @DELETE
     @Path("/{concertId}")
+    @Operation(summary = "Supprimer un concert", description = "Supprime le concert identifié par son ID.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Concert supprimé avec succès"),
+        @ApiResponse(responseCode = "404", description = "Concert non trouvé")
+    })
     public Response deleteConcert(@PathParam("concertId") Long concertId) {
         Concert concert = concertDao.findOne(concertId);
         if (concert == null) {

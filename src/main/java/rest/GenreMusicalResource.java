@@ -7,7 +7,10 @@ import dao.GenreMusicalDao;
 import domain.Concert;
 import domain.GenreMusical;
 import domain.GenreMusicalDTO;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -27,6 +30,11 @@ public class GenreMusicalResource {
 
 	@GET
 	@Path("/{GenreMusicalId}")
+	@Operation(summary = "Récupérer un genre musical", description = "Retourne le genre musical associé à l'ID fourni.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Genre musical trouvé"),
+        @ApiResponse(responseCode = "404", description = "Genre musical non trouvé")
+    })
 	public GenreMusicalDTO getGenreMusicalById(@PathParam("GenreMusicalId") Long GenreMusicalId) {
 		// Utilisation du DAO pour récupérer le GenreMusical depuis la base de données
 		GenreMusical genreMusical = genreMusicalDao.findOne(GenreMusicalId);
@@ -47,6 +55,8 @@ public class GenreMusicalResource {
 
 	@GET
 	@Path("/")
+	@Operation(summary = "Lister les genres musicaux", description = "Retourne la liste de tous les genres musicaux.")
+    @ApiResponse(responseCode = "200", description = "Liste retournée")
 	public List<GenreMusicalDTO> getGenreMusicals() {
 		// Récupérer tous les GenreMusicals depuis le DAO
 		List<GenreMusical> genreMusicals = genreMusicalDao.findAll();
@@ -71,6 +81,8 @@ public class GenreMusicalResource {
 
 	@POST
 	@Consumes("application/json")
+	@Operation(summary = "Ajouter un genre musical", description = "Crée un nouveau genre musical.")
+    @ApiResponse(responseCode = "201", description = "Genre musical ajouté avec succès")
 	public Response addGenreMusical(@Parameter GenreMusicalDTO genreMusicalDTO) {
 	    // Création d'un nouvel objet GenreMusical
 	    GenreMusical genreMusical = new GenreMusical();
@@ -87,6 +99,11 @@ public class GenreMusicalResource {
 	@PUT
     @Path("/{genreMusicalId}")
     @Consumes("application/json")
+	@Operation(summary = "Modifier un genre musical", description = "Met à jour le genre musical identifié par son ID.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Genre musical mis à jour"),
+        @ApiResponse(responseCode = "404", description = "Genre musical non trouvé")
+    })
     public Response updateGenreMusical(@PathParam("genreMusicalId") Long genreMusicalId, GenreMusicalDTO genreMusicalDTO) {
         GenreMusical genreMusical = genreMusicalDao.findOne(genreMusicalId);
         if (genreMusical == null) {
@@ -99,6 +116,11 @@ public class GenreMusicalResource {
 
 	@DELETE
     @Path("/{genreMusicalId}")
+	@Operation(summary = "Supprimer un genre musical", description = "Supprime le genre musical identifié par son ID.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Genre musical supprimé"),
+        @ApiResponse(responseCode = "404", description = "Genre musical non trouvé")
+    })
     public Response deleteGenreMusical(@PathParam("genreMusicalId") Long genreMusicalId) {
         GenreMusical genreMusical = genreMusicalDao.findOne(genreMusicalId);
         if (genreMusical == null) {

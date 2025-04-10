@@ -8,12 +8,30 @@ import rest.CORSFilter;
 import rest.ConcertResource;
 import rest.GenreMusicalResource;
 import rest.OrganisateurResource;
+import rest.SwaggerResource;
 import rest.TicketResource;
 import rest.UtilisateurResource;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.servers.Server;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
+@OpenAPIDefinition(
+	    info = @Info(
+	        title = "API de gestion de concerts",
+	        version = "1.0",
+	        description = "Documentation de l'API REST pour gérer les artistes, concerts, tickets, etc.",
+	        contact = @Contact(name = "Ton Nom", email = "ton.email@example.com"),
+	        license = @License(name = "Apache 2.0", url = "http://www.apache.org/licenses/LICENSE-2.0.html")
+	    ),
+	    servers = {
+	        @Server(url = "http://localhost:8080", description = "Serveur local")
+	    }
+	)
 @ApplicationPath("/")
 public class TestApplication extends Application {
 	
@@ -31,6 +49,7 @@ public class TestApplication extends Application {
         clazzes.add(OrganisateurResource.class);
         clazzes.add(UtilisateurResource.class);
         clazzes.add(CORSFilter.class);
+        clazzes.add(SwaggerResource.class);
 //        clazzes.add(AcceptHeaderOpenApiResource.class);
          
 

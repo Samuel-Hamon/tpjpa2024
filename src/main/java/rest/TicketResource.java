@@ -8,8 +8,10 @@ import dao.TicketDao;
 import dao.UtilisateurDao;
 import domain.Ticket;
 import domain.TicketDTO;
-
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -30,6 +32,11 @@ public class TicketResource {
 
 	@GET
 	@Path("/{ticketId}")
+	@Operation(summary = "Récupérer un ticket", description = "Retourne le ticket correspondant à l'ID fourni.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Ticket trouvé"),
+        @ApiResponse(responseCode = "404", description = "Ticket non trouvé")
+    })
 	public TicketDTO getTicketById(@PathParam("ticketId") Long ticketId) {
 		// Utilisation du DAO pour récupérer le ticket depuis la base de données
 		Ticket ticket = ticketDao.findOne(ticketId);
@@ -51,6 +58,8 @@ public class TicketResource {
 
 	@GET
 	@Path("/")
+	@Operation(summary = "Lister les tickets", description = "Retourne la liste de tous les tickets.")
+    @ApiResponse(responseCode = "200", description = "Liste des tickets retournée")
 	public List<TicketDTO> getTickets() {
 		// Récupérer tous les concerts depuis le DAO
 		List<Ticket> tickets = ticketDao.findAll();
@@ -74,6 +83,8 @@ public class TicketResource {
 
 	@POST
 	@Consumes("application/json")
+	@Operation(summary = "Ajouter un ticket", description = "Crée un nouveau ticket à partir des informations fournies.")
+    @ApiResponse(responseCode = "200", description = "Ticket ajouté avec succès")
 	public Response addTicket(@Parameter TicketDTO ticketDTO) {
 		Ticket ticket = new Ticket();
 		ticket.setId(ticketDTO.getId());
@@ -87,6 +98,11 @@ public class TicketResource {
 	@PUT
 	@Path("/{ticketId}")
 	@Consumes("application/json")
+	@Operation(summary = "Modifier un ticket", description = "Met à jour le ticket identifié par son ID.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Ticket mis à jour avec succès"),
+        @ApiResponse(responseCode = "404", description = "Ticket non trouvé")
+    })
 	public Response updateTicket(@PathParam("ticketId") Long ticketId, TicketDTO ticketDTO) {
 		UtilisateurDao utilisateurDao = new UtilisateurDao();
 		ConcertDao concertDao = new ConcertDao();
@@ -108,6 +124,11 @@ public class TicketResource {
 
 	@DELETE
 	@Path("/{ticketId}")
+	@Operation(summary = "Supprimer un ticket", description = "Supprime le ticket identifié par son ID.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Ticket supprimé avec succès"),
+        @ApiResponse(responseCode = "404", description = "Ticket non trouvé")
+    })
 	public Response deleteTicket(@PathParam("ticketId") Long ticketId) {
 	    Ticket ticket = ticketDao.findOne(ticketId);
 	    if (ticket == null) {
