@@ -5,11 +5,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("serial")
@@ -27,12 +25,8 @@ public class Artiste extends Personne implements Serializable {
 		super(nom, prenom, nationalite, dateNaissance, email, tel);
 	}
 
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-        name = "artiste_concert",
-        joinColumns = @JoinColumn(name = "artiste_id"),
-        inverseJoinColumns = @JoinColumn(name = "concert_id")
-    )
+	@ManyToMany(mappedBy = "artistes")
+    @XmlElement
 	public List<Concert> getConcerts() {
 		return concerts;
 	}

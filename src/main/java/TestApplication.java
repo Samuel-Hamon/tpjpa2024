@@ -25,7 +25,7 @@ import jakarta.ws.rs.core.Application;
 	        title = "API de gestion de concerts",
 	        version = "1.0",
 	        description = "Documentation de l'API REST pour gérer les artistes, concerts, tickets, etc.",
-	        contact = @Contact(name = "Ton Nom", email = "ton.email@example.com"),
+	        contact = @Contact(name = "Hamon Samuel - Amoussou Guenou Magnolia", email = "samuel.hamon.miage@gmail.com"),
 	        license = @License(name = "Apache 2.0", url = "http://www.apache.org/licenses/LICENSE-2.0.html")
 	    ),
 	    servers = {

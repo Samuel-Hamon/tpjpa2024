@@ -10,6 +10,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -134,8 +136,12 @@ public class Concert implements Serializable {
         this.genreMusical = genreMusical;
     }
 
-    @ManyToMany(mappedBy = "concerts", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    @XmlElement
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+        name = "artiste_concert",
+        joinColumns = @JoinColumn(name = "concert_id"),
+        inverseJoinColumns = @JoinColumn(name = "artiste_id")
+    )
     public List<Artiste> getArtistes() {
         return artistes;
     }

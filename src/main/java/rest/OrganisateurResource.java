@@ -69,6 +69,7 @@ public class OrganisateurResource {
 		// Convertir la liste des concerts en une liste de ConcertDTO
 		List<OrganisateurDTO> organisateurDTOs = organisateurs.stream().map(organisateur -> {
 			OrganisateurDTO dto = new OrganisateurDTO();
+			dto.setId(organisateur.getId());
 			dto.setNom(organisateur.getNom());
 			dto.setPrenom(organisateur.getPrenom());
 			dto.setNationalite(organisateur.getNationalite());

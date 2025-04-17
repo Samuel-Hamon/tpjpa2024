@@ -118,7 +118,7 @@ public class ConcertResource {
         if (concert == null) {
             throw new WebApplicationException("Concert not found", Response.Status.NOT_FOUND);
         }
-        // Suppression des associations ou configuration de cascade/orphanRemoval dans les entités
+        
         concertDao.delete(concert);
         return Response.ok().entity("DELETED").build();
     }
@@ -163,19 +163,36 @@ public class ConcertResource {
         concert.setDate(concertDTO.getDate());
         concert.setPays(concertDTO.getPays());
 
-        // Récupération et affectation de l'organisateur
-        Organisateur organisateur = organisateurDao.findOne(concertDTO.getOrganisateurId());
-        if (organisateur == null) {
-            throw new WebApplicationException("Organisateur invalide", Response.Status.BAD_REQUEST);
+        if (concertDTO.getOrganisateurId() == null) {
+            throw new WebApplicationException(
+                "organisateurId manquant ou invalide",
+                Response.Status.BAD_REQUEST
+            );
         }
-        concert.setOrganisateur(organisateur);
+        Organisateur o = organisateurDao.findOne(concertDTO.getOrganisateurId());
+        if (o == null) {
+            throw new WebApplicationException(
+                "Organisateur introuvable pour l'ID " + concertDTO.getOrganisateurId(),
+                Response.Status.BAD_REQUEST
+            );
+        }
+        concert.setOrganisateur(o);
+        
+        if (concertDTO.getGenreMusicalId() == null) {
+            throw new WebApplicationException(
+                "genreMusicalId manquant ou invalide",
+                Response.Status.BAD_REQUEST
+            );
+        }
+        GenreMusical gm = genreMusicalDao.findOne(concertDTO.getGenreMusicalId());
+        if (gm == null) {
+            throw new WebApplicationException(
+                "Genre musical introuvable pour l'ID " + concertDTO.getGenreMusicalId(),
+                Response.Status.BAD_REQUEST
+            );
+        }
+        concert.setGenreMusical(gm);
 
-        // Récupération et affectation du genre musical
-        GenreMusical genreMusical = genreMusicalDao.findOne(concertDTO.getGenreMusicalId());
-        if (genreMusical == null) {
-            throw new WebApplicationException("Genre musical invalide.", Response.Status.BAD_REQUEST);
-        }
-        concert.setGenreMusical(genreMusical);
 
         // Récupération et affectation des artistes
         List<Long> artistesIds = concertDTO.getArtistesIds();
@@ -206,19 +223,35 @@ public class ConcertResource {
         concert.setDate(dto.getDate());
         concert.setPays(dto.getPays());
 
-        // Mise à jour de l'organisateur
-        Organisateur organisateur = organisateurDao.findOne(dto.getOrganisateurId());
-        if (organisateur == null) {
-            throw new WebApplicationException("Organisateur invalide", Response.Status.BAD_REQUEST);
+        if (dto.getOrganisateurId() == null) {
+            throw new WebApplicationException(
+                "organisateurId manquant ou invalide",
+                Response.Status.BAD_REQUEST
+            );
         }
-        concert.setOrganisateur(organisateur);
-
-        // Mise à jour du genre musical
-        GenreMusical genreMusical = genreMusicalDao.findOne(dto.getGenreMusicalId());
-        if (genreMusical == null) {
-            throw new WebApplicationException("Genre musical invalide.", Response.Status.BAD_REQUEST);
+        Organisateur o = organisateurDao.findOne(dto.getOrganisateurId());
+        if (o == null) {
+            throw new WebApplicationException(
+                "Organisateur introuvable pour l'ID " + dto.getOrganisateurId(),
+                Response.Status.BAD_REQUEST
+            );
         }
-        concert.setGenreMusical(genreMusical);
+        concert.setOrganisateur(o);
+        
+        if (dto.getGenreMusicalId() == null) {
+            throw new WebApplicationException(
+                "genreMusicalId manquant ou invalide",
+                Response.Status.BAD_REQUEST
+            );
+        }
+        GenreMusical gm = genreMusicalDao.findOne(dto.getGenreMusicalId());
+        if (gm == null) {
+            throw new WebApplicationException(
+                "Genre musical introuvable pour l'ID " + dto.getGenreMusicalId(),
+                Response.Status.BAD_REQUEST
+            );
+        }
+        concert.setGenreMusical(gm);
 
         // Mise à jour des artistes
         List<Long> artistesIds = dto.getArtistesIds();
