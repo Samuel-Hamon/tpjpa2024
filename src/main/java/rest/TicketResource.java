@@ -81,7 +81,7 @@ public class TicketResource {
 		return ticketsDTOs;
 	}
 
-	@POST
+	/*@POST
 	@Consumes("application/json")
 	@Operation(summary = "Ajouter un ticket", description = "Crée un nouveau ticket à partir des informations fournies.")
     @ApiResponse(responseCode = "200", description = "Ticket ajouté avec succès")
@@ -93,7 +93,7 @@ public class TicketResource {
 		ticketDao.save(ticket);
 
 		return Response.ok().entity("SUCCESS").build();
-	}
+	}*/
 	
 	@PUT
 	@Path("/{ticketId}")
@@ -122,7 +122,7 @@ public class TicketResource {
 	    return Response.ok().entity("Ticket updated successfully").build();
 	}
 
-	@DELETE
+	/*@DELETE
 	@Path("/{ticketId}")
 	@Operation(summary = "Supprimer un ticket", description = "Supprime le ticket identifié par son ID.")
     @ApiResponses({
@@ -137,5 +137,5 @@ public class TicketResource {
 
 	    ticketDao.delete(ticket);
 	    return Response.ok().entity("Ticket deleted successfully").build();
-	}
+	}*/
 }
